@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:restourant_mobile_project/utils/app_styles.dart';
+import 'package:restourant_mobile_project/core/utils/app_styles.dart';
 
 class Categories extends StatelessWidget {
   const Categories({

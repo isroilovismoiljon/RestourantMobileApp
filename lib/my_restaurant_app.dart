@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:restourant_mobile_project/categories.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:restourant_mobile_project/product_of_category_by_filter.dart';
 import 'package:restourant_mobile_project/recipe_bottom_navigation_bar.dart';
-import 'package:restourant_mobile_project/utils/app_styles.dart';
-
-import 'bottom_navigation_bar_gradient.dart';
-import 'utils/app_colors.dart';
+import 'package:restourant_mobile_project/core/utils/app_lists.dart';
+import 'package:restourant_mobile_project/core/utils/app_styles.dart';
+import 'core/utils/app_colors.dart';
 
 class MyRestaurantApp extends StatefulWidget {
   const MyRestaurantApp({super.key});
@@ -16,7 +15,7 @@ class MyRestaurantApp extends StatefulWidget {
 }
 
 class _MyRestaurantAppState extends State<MyRestaurantApp> {
-  List<Map> list = [
+  /*List<Map> list = [
     {
       "image": "assets/Images/Categories/lunch.png",
       "title": "Lunch",
@@ -57,10 +56,22 @@ class _MyRestaurantAppState extends State<MyRestaurantApp> {
       "image": "assets/Images/Categories/breakfast.png",
       "title": "Breakfast",
     },
+  ];*/
+  final int counterListIndex = 0;
+
+  int activeIndex = 0;
+  List<String> CategoriesName = [
+    'Breakfast',
+    'Cookies',
+    'Dessert',
+    'Dinner',
+    'Drinks',
   ];
+  String TitleString = 'Breakfast';
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.backgroundColor,
@@ -76,7 +87,7 @@ class _MyRestaurantAppState extends State<MyRestaurantApp> {
           ),
         ),
         title: Text(
-          "Categories",
+          TitleString,
           style: AppStyles.titleStyle,
         ),
         actions: [
@@ -107,81 +118,94 @@ class _MyRestaurantAppState extends State<MyRestaurantApp> {
               ),
             ],
           ),
-          SizedBox(
-            width: 37,
-          ),
         ],
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 39),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 10,
+              children: [
+                SizedBox(
+                  width: 25,
+                ),
+                ...List.generate(5, (index) {
+                  return TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: activeIndex == index
+                          ? AppColors.redPinkMain
+                          : Colors.transparent,
+                      foregroundColor: activeIndex == index
+                          ? AppColors.whiteColor
+                          : AppColors.appBarTextColor,
+                    ),
+                    onPressed: () {
+                      activeIndex = index;
+                      TitleString = CategoriesName[index];
+                      setState(() {});
+                    },
+                    child: Text(
+                      CategoriesName[index],
+                      style: AppStyles.categoriesButtonStyle,
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ),
+        ),
       ),
+
       body: GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 37.h, vertical: 19),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 38.91.w,
+          crossAxisSpacing: 18.95.w,
           mainAxisSpacing: 8.h,
-          childAspectRatio: 1 / 1.18,
+          childAspectRatio: 1 / 1.54,
         ),
-        itemCount: list.length,
+        itemCount: AppLists.productsBreakfastList.length,
         itemBuilder: (context, index) {
-          return Categories(imageAsset: list[index]["image"], categoryText: list[index]['title'],);
-        },
-        /*gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1 / 2,
-        ),
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            width: 168.53.w,
-            height: 226.h,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
-                    alignment: Alignment.bottomCenter,
-                    width: 158.53.w,
-                    height: 226.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Column(
-                          children: [
-                            Text("Baked Chicken"),
-                            SizedBox(
-                              width: 128.53.w,
-                              child: Text("Delicious and juicy wings"),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text("5"), Text("30 min")],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(14),
-                    child: Image.asset(
-                      "assets/Images/Categories/breakfast.png",
-                      width: 169.w,
-                      height: 153.h,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          return activeIndex == 0
+              ? ProductOfCategoryByFilter(
+            imageAsset: AppLists.productsBreakfastList[index]['image'],
+            titleText: AppLists.productsBreakfastList[index]['title'],
+            descriptionText: AppLists.productsBreakfastList[index]['description'],
+            preparedTime: AppLists.productsBreakfastList[index]['time'],
+            starNumber: AppLists.productsBreakfastList[index]['star'],
+          )
+              : activeIndex == 1
+              ? ProductOfCategoryByFilter(
+            imageAsset: AppLists.productsCookiesList[index]['image'],
+            titleText: AppLists.productsBreakfastList[index]['title'],
+            descriptionText: AppLists.productsCookiesList[index]['description'],
+            preparedTime: AppLists.productsCookiesList[index]['time'],
+            starNumber: AppLists.productsCookiesList[index]['star'],
+          )
+              : activeIndex == 2
+              ? ProductOfCategoryByFilter(
+            imageAsset: AppLists.productsDessertList[index]['image'],
+            titleText: AppLists.productsDessertList[index]['title'],
+            descriptionText: AppLists.productsDessertList[index]['description'],
+            preparedTime: AppLists.productsDessertList[index]['time'],
+            starNumber: AppLists.productsDessertList[index]['star'],
+          )
+              : activeIndex == 3
+              ? ProductOfCategoryByFilter(
+            imageAsset: AppLists.productsBreakfastList[index]['image'],
+            titleText: AppLists.productsBreakfastList[index]['title'],
+            descriptionText: AppLists.productsBreakfastList[index]['description'],
+            preparedTime: AppLists.productsBreakfastList[index]['time'],
+            starNumber: AppLists.productsBreakfastList[index]['star'],
+          )
+              : ProductOfCategoryByFilter(
+            imageAsset: AppLists.productsBreakfastList[index]['image'],
+            titleText: AppLists.productsBreakfastList[index]['title'],
+            descriptionText: AppLists.productsBreakfastList[index]['description'],
+            preparedTime: AppLists.productsBreakfastList[index]['time'],
+            starNumber: AppLists.productsBreakfastList[index]['star'],
           );
-        },*/
+        },
       ),
       bottomNavigationBar: RecipeBottomNavigationBar(),
     );
