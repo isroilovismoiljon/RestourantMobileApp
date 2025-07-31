@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:restourant_mobile_project/core/utils/app_styles.dart';
 import 'package:restourant_mobile_project/core/utils/app_svgs.dart';
-import '../../recipes/pages/category_product_recipes.dart';
+import '../pages/category_product_recipes.dart';
 import 'like.dart';
 
 class ProductOfCategoryByFilter extends StatelessWidget {
@@ -27,7 +27,6 @@ class ProductOfCategoryByFilter extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => CategoryProductDetails(
               title: appBarTitle,
-              activeIndex: activeIndex,
               productDetails: productDetails,
             ),
           ),

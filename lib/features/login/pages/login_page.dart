@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:restourant_mobile_project/core/utils/app_colors.dart';
 import 'package:restourant_mobile_project/features/login/widgets/login_or_register_button.dart';
 import 'package:restourant_mobile_project/features/login/widgets/input_field.dart';
-import '../../../core/utils/dio.dart';
+import '../../../core/dio.dart';
 import '../../categories/pages/categoriesPage.dart';
 
 Future<String> login({required String email, required String password}) async {
   try{
-    var response = await DioClient.dio.post(
+    var response = await dio.post(
       "/auth/login",
       data: {'login': email, 'password': password},
     );

@@ -5,11 +5,11 @@ import 'package:restourant_mobile_project/features/common/widgets/navigation_bar
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_styles.dart';
 import '../../../core/utils/app_svgs.dart';
-import '../../../core/utils/dio.dart';
+import '../../../core/dio.dart';
 import '../widgets/foots_template.dart';
 
 Future<List> fetchCategoriesList() async {
-  var categories = await DioClient.dio.get("/categories/list");
+  var categories = await dio.get("/categories/list");
   if (categories.statusCode != 200) {
     throw Exception(categories.data);
   }
@@ -102,7 +102,7 @@ class _MyCategoriesPageState extends State<MyCategoriesPage> {
               itemBuilder: (context, index) {
                 return FootsTemplate(
                   index: index,
-                  category: data[index], categories: data,
+                  category: data[index], categories: data, categoryId: data[index]['id'],
                 );
               },
             ),

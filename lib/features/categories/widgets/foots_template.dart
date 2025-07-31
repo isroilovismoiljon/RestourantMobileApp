@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:restourant_mobile_project/features/category_details/pages/category_details.dart';
+import 'package:restourant_mobile_project/features/categories/pages/category_details.dart';
 import '../../../core/utils/app_styles.dart';
 
 class FootsTemplate extends StatelessWidget {
@@ -8,12 +8,13 @@ class FootsTemplate extends StatelessWidget {
     super.key,
     required this.index,
     required this.category,
-    required this.categories,
+    required this.categories, required this.categoryId,
   });
 
   final Map category;
   final List categories;
   final int index;
+  final int categoryId;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class FootsTemplate extends StatelessWidget {
               category: category,
               categories: categories,
               activeIndex: index,
+              categoryId: categoryId,
             ),
           ),
         );

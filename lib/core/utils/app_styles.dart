@@ -3,7 +3,7 @@ import 'app_colors.dart';
 
 class AppStyles {
   static const TextStyle titleStyle = TextStyle(
-    fontFamily: "assets/Fonts/Poppins/Poppins-SemiBold.ttf",
+    fontFamily: "Poppins",
     color: AppColors.appBarTextColor,
     fontSize: 20,
     fontWeight: FontWeight.w600,
@@ -26,7 +26,12 @@ class AppStyles {
   static TextStyle footStarNumberStyle = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 12,
-    color: AppColors.pinkColor,
+    color: AppColors.productTextColor,
+  );
+  static TextStyle chefProfileUsernameStyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    color: AppColors.redPinkMain,
   );
   static TextStyle categoriesButtonStyle = TextStyle(
     fontWeight: FontWeight.w400,
@@ -36,5 +41,34 @@ class AppStyles {
     fontWeight: FontWeight.w400,
     fontSize: 16,
     color: AppColors.categoryName
+  );
+  static const TextStyle productName = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.productTextColor,
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+  );
+  static const TextStyle chefFullName = TextStyle(
+    color: AppColors.productTextColor,
+    fontSize: 14,
+    fontWeight: FontWeight.w300,
+  );
+  static const TextStyle follow = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.likePinkColor,
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+  );
+  static const TextStyle contentText = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.whiteColor,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+  );
+  static const TextStyle contentRedText = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.redPinkMain,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
   );
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:restourant_mobile_project/core/utils/app_svgs.dart';
-import 'package:restourant_mobile_project/core/utils/dio.dart';
-import 'package:restourant_mobile_project/features/category_details/widgets/product_of_category_by_filter.dart';
+import 'package:restourant_mobile_project/core/dio.dart';
+import 'package:restourant_mobile_project/features/categories/widgets/product_of_category_by_filter.dart';
 import 'package:restourant_mobile_project/features/common/widgets/navigation_bar/recipe_bottom_navigation_bar.dart';
 import 'package:restourant_mobile_project/core/utils/app_styles.dart';
 import '../../../core/utils/app_colors.dart';
@@ -14,10 +14,12 @@ class MyRestaurantApp extends StatefulWidget {
     required this.category,
     required this.categories,
     required this.activeIndex,
+    required this.categoryId,
   });
 
   final Map category;
   final List categories;
+  final int categoryId;
   final int activeIndex;
 
   @override
@@ -25,10 +27,9 @@ class MyRestaurantApp extends StatefulWidget {
 }
 
 class _MyRestaurantAppState extends State<MyRestaurantApp> {
-
   Future<List> fetchCategoryDetails() async {
-    var categoryDetails = await DioClient.dio.get(
-      "/recipes/list?Category=${widget.category['id']}",
+    var categoryDetails = await dio.get(
+      "/recipes/list?Category=${widget.categoryId}",
     );
     if (categoryDetails.statusCode != 200) {
       throw Exception(categoryDetails.data);
@@ -37,7 +38,7 @@ class _MyRestaurantAppState extends State<MyRestaurantApp> {
   }
 
   Future<List> fetchCategories() async {
-    var categoryDetails = await DioClient.dio.get(
+    var categoryDetails = await dio.get(
       "/categories/list",
     );
     if (categoryDetails.statusCode != 200) {
@@ -50,7 +51,7 @@ class _MyRestaurantAppState extends State<MyRestaurantApp> {
 
   @override
   Widget build(BuildContext context) {
-    late int activeIndex = widget.activeIndex;
+    int activeIndex = widget.activeIndex;
     return FutureBuilder(
       future: fetchCategoryDetails(),
       builder: (context, snapshot) {
@@ -119,7 +120,9 @@ class _MyRestaurantAppState extends State<MyRestaurantApp> {
                     ),
                   ],
                 ),
-                SizedBox(width: 37.w,)
+                SizedBox(
+                  width: 37.w,
+                ),
               ],
               bottom: PreferredSize(
                 preferredSize: Size(double.infinity, 39),
@@ -139,7 +142,7 @@ class _MyRestaurantAppState extends State<MyRestaurantApp> {
                                 builder: (context) => MyRestaurantApp(
                                   category: widget.categories[activeIndex],
                                   categories: widget.categories,
-                                  activeIndex: activeIndex,
+                                  activeIndex: activeIndex, categoryId: widget.categories[activeIndex]['id'],
                                 ),
                               ),
                             );

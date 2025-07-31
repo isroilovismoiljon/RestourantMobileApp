@@ -6,10 +6,10 @@ import 'package:restourant_mobile_project/core/utils/app_svgs.dart';
 import '../../../../core/utils/app_colors.dart';
 
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
+
+  const MyAppBar({super.key, this.activeIndex = 0, required this.titleString});
   final int activeIndex;
   final String titleString;
-
-  const MyAppBar({super.key, required this.activeIndex, required this.titleString});
 
   @override
   State<MyAppBar> createState() => _MyAppBarState();
@@ -19,14 +19,6 @@ class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MyAppBarState extends State<MyAppBar> {
-  late int activeIndex;
-  List<String> CategoriesName = [
-    'Breakfast',
-    'Cookies',
-    'Dessert',
-    'Dinner',
-    'Drinks',
-  ];
 
   @override
   Widget build(BuildContext context) {
