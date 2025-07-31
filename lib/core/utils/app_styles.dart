@@ -32,4 +32,9 @@ class AppStyles {
     fontWeight: FontWeight.w400,
     fontSize: 16,
   );
+  static TextStyle categoryName = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: AppColors.categoryName
+  );
 }

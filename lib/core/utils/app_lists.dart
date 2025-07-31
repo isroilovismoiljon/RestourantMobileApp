@@ -1,5 +1,12 @@
 
 class AppLists{
+  static List<String> CategoriesName = [
+    'Breakfast',
+    'Cookies',
+    'Dessert',
+    'Dinner',
+    'Drinks',
+  ];
   static List<Map> productsBreakfastList = [
     {
       'image': 'assets/Images/RecipesByCategories/Breakfast/eggs_benedict.png',
@@ -174,5 +181,46 @@ class AppLists{
       'time': '35 min',
     },
   ];
-
+  static List<Map> categoriesList = [
+    {
+      "image": "assets/Images/Categories/lunch.png",
+      "title": "Lunch",
+    },
+    {
+      "image": "assets/Images/Categories/breakfast.png",
+      "title": "Breakfast",
+    },
+    {
+      "image": "assets/Images/Categories/dinner.png",
+      "title": "Dinner",
+    },
+    {
+      "image": "assets/Images/Categories/vegan.png",
+      "title": "Vegan",
+    },
+    {
+      "image": "assets/Images/Categories/dessert.png",
+      "title": "Dessert",
+    },
+    {
+      "image": "assets/Images/Categories/drinks.png",
+      "title": "Drinks",
+    },
+    {
+      "image": "assets/Images/Categories/drinks.png",
+      "title": "Drinks",
+    },
+    {
+      "image": "assets/Images/Categories/dessert.png",
+      "title": "Dessert",
+    },
+    {
+      "image": "assets/Images/Categories/lunch.png",
+      "title": "Lunch",
+    },
+    {
+      "image": "assets/Images/Categories/breakfast.png",
+      "title": "Breakfast",
+    },
+  ];
 }
