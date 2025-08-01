@@ -48,6 +48,13 @@ class AppStyles {
     fontSize: 20,
     fontWeight: FontWeight.w500,
   );
+
+  static const TextStyle cuisinesTitle = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.productTextColor,
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+  );
   static const TextStyle chefFullName = TextStyle(
     color: AppColors.productTextColor,
     fontSize: 14,
@@ -70,5 +77,29 @@ class AppStyles {
     color: AppColors.redPinkMain,
     fontSize: 12,
     fontWeight: FontWeight.w400,
+  );
+  static const TextStyle cuisinesDescription = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.productTextColor,
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+  );
+  static const TextStyle cuisinesItemTitle = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.productTextColor,
+    fontSize: 13.25,
+    fontWeight: FontWeight.w500,
+  );
+  static const TextStyle skipButtonText = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.pinkColor,
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+  );
+  static const TextStyle continueButtonText = TextStyle(
+    fontFamily: "Poppins",
+    color: AppColors.productTextColor,
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
   );
 }

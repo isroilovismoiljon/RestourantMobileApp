@@ -14,6 +14,7 @@ class AppColors {
   static const Color subPinkColor = Color(0xFFEC888D);
   static const Color likePinkColor = Color(0xFFFFC6C9);
   static const Color whiteColor = Color(0xFFFFFFFF);
+  static const Color pageViewWhiteButton = Color(0xFFD9D9D9);
 
 
 }

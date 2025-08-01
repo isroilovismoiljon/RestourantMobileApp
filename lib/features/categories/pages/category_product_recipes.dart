@@ -350,7 +350,7 @@ class _CategoryProductDetailsState extends State<CategoryProductDetails> {
                             );
                           }),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ],
