@@ -12,7 +12,6 @@ class CuisinesViewModel extends ChangeNotifier {
   void getProducts() async {
     var response = await dio.get("/cuisines/list");
     cuisines = response.data;
-    print(cuisines);
     notifyListeners();
   }
 }

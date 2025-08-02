@@ -17,7 +17,6 @@ class CuisinesPage extends StatelessWidget {
       create: (context) => CuisinesViewModel(),
       child: Scaffold(
         backgroundColor: AppColors.backgroundColor,
-
         body: Padding(
           padding: const EdgeInsets.only(
             top: 82.65,

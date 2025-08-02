@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:restourant_mobile_project/core/utils/app_svgs.dart';
 import 'package:restourant_mobile_project/core/dio.dart';
 import 'package:restourant_mobile_project/features/categories/widgets/product_of_category_by_filter.dart';
 import 'package:restourant_mobile_project/features/common/widgets/navigation_bar/recipe_bottom_navigation_bar.dart';
 import 'package:restourant_mobile_project/core/utils/app_styles.dart';
 import '../../../core/utils/app_colors.dart';
+import '../managers/CategoryDetailsViewModel.dart';
 
 class MyRestaurantApp extends StatefulWidget {
   const MyRestaurantApp({
@@ -27,181 +29,143 @@ class MyRestaurantApp extends StatefulWidget {
 }
 
 class _MyRestaurantAppState extends State<MyRestaurantApp> {
-  Future<List> fetchCategoryDetails() async {
-    var categoryDetails = await dio.get(
-      "/recipes/list?Category=${widget.categoryId}",
-    );
-    if (categoryDetails.statusCode != 200) {
-      throw Exception(categoryDetails.data);
-    }
-    return categoryDetails.data;
-  }
-
-  Future<List> fetchCategories() async {
-    var categoryDetails = await dio.get(
-      "/categories/list",
-    );
-    if (categoryDetails.statusCode != 200) {
-      throw Exception(categoryDetails.data);
-    }
-    return categoryDetails.data;
-  }
-
   String titleString = 'Breakfast';
 
   @override
   Widget build(BuildContext context) {
     int activeIndex = widget.activeIndex;
-    return FutureBuilder(
-      future: fetchCategoryDetails(),
-      builder: (context, snapshot) {
-        final data = snapshot.data!;
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
+    return ChangeNotifierProvider(
+      create: (context) => CategoryDetailsViewModel(widget.categoryId),
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: AppColors.backgroundColor,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: AppColors.backgroundColor,
+          leading: Center(
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: SvgPicture.asset(
+                width: 21.4,
+                height: 14,
+                AppSvgs.backArrow,
+                fit: BoxFit.cover,
+              ),
             ),
-          );
-        } else if (snapshot.hasError) {
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (snapshot.hasData) {
-          return Scaffold(
-            extendBody: true,
-            backgroundColor: AppColors.backgroundColor,
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: AppColors.backgroundColor,
-              leading: Center(
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: SvgPicture.asset(
-                    width: 21.4,
-                    height: 14,
-                    AppSvgs.backArrow,
-                    fit: BoxFit.cover,
+          ),
+          title: Text(
+            widget.category['title'],
+            style: AppStyles.titleStyle,
+          ),
+          actions: [
+            Row(
+              spacing: 5,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  height: 28.h,
+                  width: 28.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14.h),
+                    color: AppColors.actionIconsColor,
+                  ),
+                  child: SvgPicture.asset(
+                    AppSvgs.notification,
                   ),
                 ),
-              ),
-              title: Text(
-                widget.category['title'],
-                style: AppStyles.titleStyle,
-              ),
-              actions: [
-                Row(
-                  spacing: 5,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      height: 28.h,
-                      width: 28.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14.h),
-                        color: AppColors.actionIconsColor,
-                      ),
-                      child: SvgPicture.asset(
-                        AppSvgs.notification,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      height: 28.h,
-                      width: 28.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14.h),
-                        color: AppColors.actionIconsColor,
-                      ),
-                      child: SvgPicture.asset(AppSvgs.search),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 37.w,
+                Container(
+                  padding: EdgeInsets.all(5),
+                  height: 28.h,
+                  width: 28.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14.h),
+                    color: AppColors.actionIconsColor,
+                  ),
+                  child: SvgPicture.asset(AppSvgs.search),
                 ),
               ],
-              bottom: PreferredSize(
-                preferredSize: Size(double.infinity, 39),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    spacing: 10,
-                    children: [
-                      SizedBox(
-                        width: 25,
-                      ),
-                      ...List.generate(widget.categories.length, (index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => MyRestaurantApp(
-                                  category: widget.categories[activeIndex],
-                                  categories: widget.categories,
-                                  activeIndex: activeIndex, categoryId: widget.categories[activeIndex]['id'],
-                                ),
-                              ),
-                            );
-                          },
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: activeIndex == index
-                                  ? AppColors.redPinkMain
-                                  : Colors.transparent,
-                              foregroundColor: activeIndex == index
-                                  ? AppColors.whiteColor
-                                  : AppColors.appBarTextColor,
-                            ),
-                            onPressed: () {
-                              activeIndex = index;
-                              titleString = widget.categories[index]['title'];
-                              setState(() {});
-                            },
-                            child: Text(
-                              widget.categories[index]['title'],
-                              style: AppStyles.categoriesButtonStyle,
+            ),
+            SizedBox(
+              width: 37.w,
+            ),
+          ],
+          bottom: PreferredSize(
+            preferredSize: Size(double.infinity, 39),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                spacing: 10,
+                children: [
+                  SizedBox(
+                    width: 25,
+                  ),
+                  ...List.generate(widget.categories.length, (index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(
+                          context,
+                        ).push(
+                          MaterialPageRoute(
+                            builder: (context) => MyRestaurantApp(
+                              category: widget.category,
+                              categories: widget.categories,
+                              activeIndex: widget.activeIndex,
+                              categoryId: widget.categoryId,
                             ),
                           ),
                         );
-                      }),
-                    ],
-                  ),
-                ),
+                      },
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: activeIndex == index
+                              ? AppColors.redPinkMain
+                              : Colors.transparent,
+                          foregroundColor: activeIndex == index
+                              ? AppColors.whiteColor
+                              : AppColors.appBarTextColor,
+                        ),
+                        onPressed: () {
+                          activeIndex = index;
+                          titleString = widget.categories[index]['title'];
+                          setState(() {});
+                        },
+                        child: Text(
+                          widget.categories[index]['title'],
+                          style: AppStyles.categoriesButtonStyle,
+                        ),
+                      ),
+                    );
+                  }),
+                ],
               ),
             ),
-            body: GridView.builder(
-              padding: EdgeInsets.fromLTRB(37.w, 19.h, 37.w, 125),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 18.95.w,
-                mainAxisSpacing: 8.h,
-                childAspectRatio: 1 / 1.54,
-              ),
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                final item = data[index];
-                final title = (item['title'] as String?) ?? '';
-                return ProductOfCategoryByFilter(
-                  productDetails: item,
-                  activeIndex: activeIndex,
-                  appBarTitle: title,
-                );
-              },
+          ),
+        ),
+        body: Consumer<CategoryDetailsViewModel>(
+          builder: (context, vm, child) => GridView.builder(
+            padding: EdgeInsets.fromLTRB(37.w, 19.h, 37.w, 125),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 18.95.w,
+              mainAxisSpacing: 8.h,
+              childAspectRatio: 1 / 1.54,
             ),
-            bottomNavigationBar: RecipeBottomNavigationBar(),
-          );
-        } else {
-          return Scaffold(
-            body: Center(
-              child: Text("Something went wrong!"),
-            ),
-          );
-        }
-      },
+            itemCount: vm.categoryDetailsList.length,
+            itemBuilder: (context, index) {
+              final item = vm.categoryDetailsList[index];
+              final title = (item['title'] as String?) ?? '';
+              return ProductOfCategoryByFilter(
+                productDetails: item,
+                activeIndex: activeIndex,
+                appBarTitle: title,
+              );
+            },
+          ),
+        ),
+        bottomNavigationBar: RecipeBottomNavigationBar(),
+      ),
     );
   }
 }

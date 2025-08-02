@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: Size(430, 932),
-      child: MaterialApp(home: CuisinesPage()),
+      child: MaterialApp(home: MyCategoriesPage()),
     );
   }
 }
